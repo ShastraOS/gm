@@ -1,0 +1,103 @@
+{
+    "log_file": "/tmp/first-setup.log",
+    "distro_name": "Crystal Linux",
+    "distro_logo": "al.getcryst.FirstSetup",
+    "pre_run": [],
+    "post_run": ["/usr/share/al.getcryst.FirstSetup/vanilla_first_setup/scripts/install-microcode.sh"],
+    "tour": {
+        "amethyst": {
+             "icon": "amethyst-logo",
+             "title": "Amethyst",
+             "description": "Crystal Linux offers a fast and simple aur manager and pacman wrapper called amethyst",
+             "read_more_link": "https://git.getcryst.al/crystal/software/amethyst"
+        },
+        "btrfs": {
+             "icon": "history-undo-symbolic",
+             "title": "Automatic BTRFS snapshots",
+             "description": "Crystal Linux automatically creates BTRFS snapshots which you can directly boot into in case something breaks.",
+             "read_more_link": "https://en.wikipedia.org/wiki/Btrfs"
+        }
+    },
+    "steps": {
+        "welcome": {
+            "template": "welcome"
+        },
+        "theme": {
+            "template": "theme",
+            "display-conditions": [
+                "echo $XDG_CURRENT_DESKTOP | grep GNOME"
+            ]
+        },
+        "packages": {
+            "template": "preferences",
+            "icon": "vanilla-package-symbolic",
+            "title": "Package Manager",
+            "description": "Choose one or more package managers to install",
+            "preferences": [
+                {
+                    "id": "flathub",
+                    "title": "Flathub",
+                    "subtitle": "Will also install flatpak",
+                    "default": true
+                },
+		{
+		    "id": "flathub-beta",
+		    "title": "Flathub Beta",
+		    "subtitle": "Beta software not ready to be published on flathub",
+		    "default": false
+		},
+                {
+                    "id": "nix",
+                    "title": "nix",
+                    "subtitle": "Enables the nix package manager on crystal",
+		    "default": false
+                }
+            ],
+            "final": [
+                {
+                    "if": "flathub",
+                    "type": "command",
+                    "commands": [
+                        "/usr/share/al.getcryst.FirstSetup/vanilla_first_setup/scripts/install-flathub.sh"
+                    ]
+                },
+		{
+		    "if": "flathub-beta",
+		    "type": "command",
+		    "commands": [
+		        "/usr/share/al.getcryst.FirstSetup/vanilla_first_setup/scripts/install-flathub-beta.sh"
+		    ] 
+		},
+                {
+                    "if": "nix",
+                    "type": "command",
+                    "commands": [
+                    	"/usr/share/al.getcryst.FirstSetup/vanilla_first_setup/scripts/install-nix.sh"
+                    ]
+                }
+            ]
+        },
+        "nvidia": {
+            "template": "yes-no",
+            "display-conditions": [
+                "lspci | grep -i '.* nvidia .*' | grep -v GF | grep -v GK "
+            ],
+            "icon": "video-display-symbolic",
+            "title": "NVIDIA® Drivers",
+            "description": "Choose whether to install proprietary NVIDIA drivers for better compatibility and performance.",
+            "buttons": {
+                "yes": "Yes, install",
+                "no": "Skip"
+            },
+            "final": [
+                {
+                    "if": "nvidia",
+                    "type": "command",
+                    "commands": [
+                    	"/usr/share/al.getcryst.FirstSetup/vanilla_first_setup/scripts/install-nvidia.sh"
+                    ]
+                }
+            ]
+        }
+    }
+}
