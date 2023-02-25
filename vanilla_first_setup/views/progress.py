@@ -65,4 +65,4 @@ class VanillaProgress(Gtk.Box):
                 GLib.idle_add(self.__switch_tour)
                 time.sleep(5)
 
-        RunAsync(run_async)
+        RunAsync(run_async, "/tmp/async-log.txt")
