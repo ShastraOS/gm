@@ -24,7 +24,7 @@ case $chip in
 esac
 
 if [[ "$driver" == "nvidia" ]]; then
-    pacman -S --noconfirm nvidia
+    pacman -S --noconfirm nvidia-dkms
     sed -i 's/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)/g' /etc/mkinitcpio.conf
     mkinitcpio -P
     sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet"/GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet nvidia_drm.modeset=1"/g' /etc/default/grub
