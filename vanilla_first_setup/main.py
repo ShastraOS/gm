@@ -89,8 +89,8 @@ class FirstSetupApplication(Adw.Application):
     background-color: #303030;
 }
 """
-        provider.load_from_data(data=css)
         provider = Gtk.CssProvider()
+        provider.load_from_data(data=css)
         Gtk.StyleContext.add_provider_for_display(
             display=Gdk.Display.get_default(),
             provider=provider,
