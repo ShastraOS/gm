@@ -2,6 +2,8 @@
 
 chip=$(lspci -vnn | grep VGA | grep NVIDIA | awk 'BEGIN {FS=" "}; {print $8}')
 
+driver="nvidia" # default to newest nvidia driver, in case the gpu is not in this list
+
 case $chip in
     *"GF"*)
         driver="390xx"
@@ -19,6 +21,9 @@ case $chip in
         driver="nvidia"
         ;;
     *"GA"*)
+        driver="nvidia"
+        ;;
+    *"AD"*)
         driver="nvidia"
         ;;
 esac
